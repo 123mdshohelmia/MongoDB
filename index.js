@@ -11,9 +11,10 @@ mongoDB.connect(url,config,function(error,result){
     }
     else{
         console.log("Server run success");
-        // insertDataMany(result)
+        insertDataMany(result)
         // insertOneData(result)
-        deleteOneData(result)
+        // deleteOneData(result)
+        // allDeleteData(result)
     }
 });
 
@@ -145,4 +146,22 @@ function insertOneData(result){
                 console.log("Data Delete Success");
             }
         })
+ }
+
+
+ //------------------------All Data Delete------------------
+
+ function allDeleteData(result){
+    const myDatabase = result.db("UODA");
+    const myTableCollection = myDatabase.collection('CSE_Students');
+
+    myTableCollection.deleteMany(function(err){
+        if(err){
+            console.log("All Data Delete Fail")
+        }
+        else{
+            console.log("All Data Delete Success")
+        }
+    })
+
  }
