@@ -1,4 +1,7 @@
-const mongoDB = require('mongodb').MongoClient;
+const mongoDB = require('mongodb').MongoClient; //import mongodb and mongoClient
+
+//----------------------------------------Database Link-------------------------
+
 const url = "mongodb+srv://shohelDemo:sdBxupE1jTUHxxUM@cluster0.iwgwi.mongodb.net/UODA?retryWrites=true&w=majority"
 const config = { useUnifiedTopology: true }
 
@@ -8,15 +11,20 @@ mongoDB.connect(url,config,function(error,result){
     }
     else{
         console.log("Server run success");
-        insertDataMany(result)
+        // insertDataMany(result)
+        // insertOneData(result)
+        deleteOneData(result)
     }
 });
 
-function insertDataMany(result){
-    const myDatabase = result.db("UODA");
-    const myTableCollection = myDatabase.collection('CSE_Students');
+//--------------------------------------------- Insert Many Data -------------------------
 
-    const myData = [
+function insertDataMany(result){
+    const myDatabase = result.db("UODA"); //Connection Database
+    const myTableCollection = myDatabase.collection('CSE_Students'); //Connection Database Table
+
+
+    const myData = [                      //Object
         {
             Id : "011193002",
             Name : "Md. Shohel Mia",
@@ -97,3 +105,44 @@ function insertDataMany(result){
         }
     })
 }
+
+//-------------------------------- Insert One Data ----------------------------
+
+function insertOneData(result){
+    const myDatabase = result.db("UODA");
+    const myTableCollection = myDatabase.collection('CSE_Students');
+    const myData = {
+            Id : "011193019",
+            Name : "Md. Basir Mia",
+            Batch: "53th",
+            Semester: "5th",
+            City : "Bajitpur"
+    }
+
+    myTableCollection.insertOne(myData,function(err){
+        if(err){
+            console.log("Insert One Data Fail")
+        }
+        else{
+            console.log("Insert One Data Success")
+        }
+    })
+
+}
+    // ---------------------------------- Delete One Data----------------------
+
+    function deleteOneData(result){
+        const myDatabase = result.db("UODA");
+        const myTableCollection = myDatabase.collection('CSE_Students');
+
+        const deleteData = {Id:"011193019"};
+
+        myTableCollection.deleteOne(deleteData,function(err){
+            if(err){
+                console.log("Data Delete Fail")
+            }
+            else{
+                console.log("Data Delete Success");
+            }
+        })
+ }
